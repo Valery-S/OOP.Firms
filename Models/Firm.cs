@@ -20,7 +20,7 @@ public class Firm
     public string Web { get; private set; } = null!;                            //URL-адрес сайта
     public Dictionary<string, string> UserFields { get; private set; }= null!;  //Пользовательские поля
     public List<SubFirm> SubFirms { get; private set; } = new();                //Подразделения фирмы
-    public int SubFirmsCount => SubFirms.Count;                                 //Количество подразделений
+    public int SubFirmsCount => SubFirms.Count;
 
     private Firm() { }
 
@@ -51,7 +51,7 @@ public class Firm
 
     public void AddContactToSubFirm(Contact contact, SubFirmType subFirmType, bool checkOtherTypes = false)
     {
-        var subFirm = SubFirms.FirstOrDefault(x => x.SubFirmType == subFirmType);
+        var subFirm = SubFirms.FirstOrDefault(x => x.SubFirmType.Name == subFirmType.Name);
 
         if (subFirm is not null)
         {

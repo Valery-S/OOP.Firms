@@ -20,13 +20,13 @@ public class FirmFactory
 	}
 
 	public Firm Create(string name, string shortName, string country, string region, string town, string street,
-		string postIndex, string email, string web, Dictionary<string, string>? fields = null)
+		string postIndex, string email, string web)
 	{
 		var firm = new Firm(name, shortName, country, region, town, street,
-			postIndex, email, web, fields);
+			postIndex, email, web);
 
-		firm.AddSubFirm(new SubFirm($"Основной офис фирмы {firm.Name}", $"ФИО начальника фирмы {firm.Name}", 
-            "Полное имя начальника фирмы","Номер телефона","Электронная почта", MainSubFirmType));
+		firm.AddSubFirm(new SubFirm($"Основной офис фирмы {firm.Name}", $"ФИО начальника фирмы {firm.Name}",
+            $"Полное имя начальника фирмы {firm.Name}", "Номер телефона","Электронная почта", MainSubFirmType));
 
 		Firms.Add(firm);
 
