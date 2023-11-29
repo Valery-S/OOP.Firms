@@ -1,5 +1,8 @@
 ﻿namespace Firms.Models;
-
+/*==================================================================================
+    Класс фабрики фирм. Обеспечивает создание фирмы с переданными адресными данными,
+и добавление ей основного подразделения. Реализует шаблон проектирования Singleton.
+==================================================================================*/
 public class FirmFactory
 {
 	private FirmFactory() { }
@@ -22,14 +25,8 @@ public class FirmFactory
 		var firm = new Firm(name, shortName, country, region, town, street,
 			postIndex, email, web, fields);
 
-		firm.AddSubFirm(new SubFirm(
-			$"Main_subfirm_{firm.Name}", 
-			$"Boss name of {firm.Name}", 
-			"Off name of boss", 
-			"Phone", 
-			"email", 
-			MainSubFirmType)
-		);
+		firm.AddSubFirm(new SubFirm($"Основной офис фирмы {firm.Name}", $"ФИО начальника фирмы {firm.Name}", 
+            "Полное имя начальника фирмы","Номер телефона","Электронная почта", MainSubFirmType));
 
 		Firms.Add(firm);
 

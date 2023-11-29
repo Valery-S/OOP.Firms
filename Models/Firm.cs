@@ -1,5 +1,11 @@
 ﻿namespace Firms.Models;
-
+/*===========================================================================
+    Класс фирмы. Содержит строго типизированные поля адресной информации и
+словарь пользовательских значений - UserFields. Также содержит список
+подразделений.
+    Методы класса фирмы обеспечивают управление структурой фирмы и составом
+ее контактов.
+===========================================================================*/
 public class Firm
 {
     public string Name { get; private set; } = null!;                           //Полное наименование фирмы
@@ -14,6 +20,7 @@ public class Firm
     public string Web { get; private set; } = null!;                            //URL-адрес сайта
     public Dictionary<string, string> UserFields { get; private set; }= null!;  //Пользовательские поля
     public List<SubFirm> SubFirms { get; private set; } = new();                //Подразделения фирмы
+    public int SubFirmsCount => SubFirms.Count;                                 //Количество подразделений
 
     private Firm() { }
 
@@ -34,8 +41,6 @@ public class Firm
     public void AddSubFirm(SubFirm subFirm)
         => SubFirms.Add(subFirm);
 
-    public int SubFirmsCount => SubFirms.Count;
-
     public SubFirm GetMain() => SubFirms.First(x => x.SubFirmType.IsMain);
 
     public void AddContact(Contact contact)
@@ -55,7 +60,9 @@ public class Firm
         }
 
         if (SubFirms.Count == 1 && checkOtherTypes)
+        {
             this.AddContact(contact);
+        }
     }
 
     public bool ExistContact(Contact contact)

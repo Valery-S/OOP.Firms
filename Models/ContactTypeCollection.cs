@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 
 namespace Firms.Models;
-
+/*=============================================================================
+    Класс коллекции типов контактов  обеспечивают знание доступных типов контак-
+тов и содержит методы для обхода.
+=============================================================================*/
 public class ContactTypeCollection : IEnumerable<ContactType>
 {
 	private readonly List<ContactType> _lst = new();
+    public int Count => _lst.Count;
 
-	public ContactTypeCollection(List<ContactType> value)
+    public ContactTypeCollection(List<ContactType> value)
 	{
 		_lst = value;
 	}
-
-	public int Count => _lst.Count;
-
+	
 	public void Add(ContactType type)
 		=> _lst.Add(type);
 
