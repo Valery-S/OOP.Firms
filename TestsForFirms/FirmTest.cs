@@ -22,6 +22,9 @@ namespace TestsForFirms
 
             firm.AddContact(contact);
 
+            fabricFirm.AddUserFieldForFirm("Первая тестовая фирма", "Название поля", "Значение поля");
+            string fValue= fabricFirm.GetValueOfFieldByName("Первая тестовая фирма", "Название поля");
+
             //Проверяем создание главного подразделения
             Assert.IsTrue(firm.SubFirms.Count > 0);
             //Проверяем, что GetMain возвращает не NULL
@@ -32,6 +35,9 @@ namespace TestsForFirms
             Assert.IsTrue(firm.ExistContact(contact));
             //Проверяем, что у главного подразделения существует нужный конкакт
             Assert.IsTrue(firm.GetMain().ExistContact(contact));
+            //Проверяем, что смогли получить значение поля по названию
+            Assert.IsNotNull(fValue);
+            Assert.IsTrue(fValue != "");
         }
         #endregion
 
@@ -113,9 +119,11 @@ namespace TestsForFirms
         { 
             SubFirmType supplyDepartment = new(false, "Отдел снабжения");
 
-            var contact = new Contact("Описание", "Информация", new("Коммерческое предложение", "письмо"));
-
+            var contact = new Contact("Описание", "Информация", new("Комерческое предложение", "письмо"));
+            //Создание 40 фирм с подразделениями
             GenerateRandomsFirmsViaFirmFactory(40);
+
+            //Добавление контакта фирмам 
             FirmFactory.Firms.ForEach(f => f.AddContactToSubFirm(contact, supplyDepartment, true));
 
             var firmsWithoutSupplyDepartmentAndWithOneSubfirm =
@@ -138,18 +146,19 @@ namespace TestsForFirms
             var firmsForContact = new List<Firm>();
             var allFirms = new List<Firm>();
 
-            var contact = new Contact("Тестовое письио", "Письмо для группы фирм", new("Письмо", "Письмо послали"));
+            var contact = new Contact("Тестовое письмо", "Письмо для группы фирм", new("Письмо", "Письмо послали"));
 
             GenerateRandomsFirmsViaFirmFactory(40);
             allFirms = FirmFactory.Firms;
 
+            //Формирование списка 10 случайных фирм из 40 созданных
             while (countOfFirmsForContact-- >= 0)
             {
                 var randFirm = allFirms[rnd.Next(allFirms.Count)];
                 firmsForContact.Add(randFirm);
                 allFirms.Remove(randFirm);
             }
-
+            //Добавление контакта 10 из 40 случайным фирмам
             foreach (var firm in firmsForContact)
             {
                 firm.AddContact(contact);

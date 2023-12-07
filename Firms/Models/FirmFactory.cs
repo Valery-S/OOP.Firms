@@ -21,6 +21,7 @@ public class FirmFactory
 		}
 	}
 
+    //Создание фирмы и главного подразделения
 	public Firm Create(string name, string shortName, string country, string region, string town, string street,
 		string postIndex, string email, string web)
 	{
@@ -34,7 +35,8 @@ public class FirmFactory
 
 		return firm;
 	}
-
+    
+    //Добавление пользовательского поля фирме
     public void AddUserFieldForFirm(string firmName, string fieldName, string fieldValue)
     {
         var firms = Firms.Where(x => x.Name == firmName).ToList();
@@ -43,7 +45,7 @@ public class FirmFactory
 			firms[0].AddField(fieldName, fieldValue);
         }
     }
-
+    //Получение копии словаря пользовательских полей фирмы
     public Dictionary<string, string> GetFirmFields(string firmName)
     {
         Dictionary<string, string> res=new ();
@@ -54,6 +56,7 @@ public class FirmFactory
         }
         return res;
     }
+    //Получение значения поля по его названию
     public string GetValueOfFieldByName(string firmName, string fieldName)
     {
         string res="";
@@ -64,7 +67,7 @@ public class FirmFactory
         }
         return res;
     }
-
+    //Изменение значения поля на новое
     public void SetValueOfFieldByName(string firmName, string fieldName, string fieldValue)
     {
         var firms = Firms.Where(x => x.Name == firmName).ToList();
@@ -73,7 +76,7 @@ public class FirmFactory
            firms[0].SetField(fieldName, fieldValue);
         }
     }
-
+    //Изменение названия пользовательского поля
     public void RenameFieldByName(string firmName, string oldFieldName, string newFieldName)
     {
         var firms = Firms.Where(x => x.Name == firmName).ToList();
