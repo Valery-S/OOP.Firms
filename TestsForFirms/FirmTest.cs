@@ -116,7 +116,7 @@ namespace TestsForFirms
 
             var contact = new Contact("Описание", "Информация", new("Коммерческое предложение", "письмо"));
 
-            GenerateRandomsFirmsViaFirmFactory(10);
+            GenerateRandomsFirmsViaFirmFactory(40);
             FirmFactory.Firms.ForEach(f => f.AddContactToSubFirm(contact, supplyDepartment, true));
 
             var firmsWithoutSupplyDepartmentAndWithOneSubfirm =

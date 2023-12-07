@@ -59,7 +59,7 @@ public class Firm
             return;
         }
 
-        if (SubFirms.Count == 1 && checkOtherTypes)
+        if (SubFirmsCount == 1 && checkOtherTypes)
         {
             this.AddContact(contact);
         }
