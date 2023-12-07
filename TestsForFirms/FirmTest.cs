@@ -107,7 +107,6 @@ namespace TestsForFirms
         #endregion
 
         #region TestAddingContactToSpecialSubFirm
-       // private static SubFirmType supplyDepartment = new(false, "Отдел снабжения");
         //Проверка добавления контакта "Комерческое предложение" всем фирмам, содержащим отдел снабжения
         [TestMethod]
         public void TestAddingContactToSpecialSubFirm()
@@ -126,6 +125,45 @@ namespace TestsForFirms
                 .ForEach(f => Assert.IsTrue(f.ExistContact(contact)));
 
             Console.WriteLine(JsonSerializer.Serialize(FirmFactory.Firms));
+        }
+        #endregion
+
+        #region TestAddingContactToMultipleFirms
+        //Проверка добавления группе фирм контакта "Письмо послали"
+        [TestMethod]
+        public void TestAddingContactToMultipleFirms()
+        {
+            var rnd = new Random();
+            var countOfFirmsForContact = 10;
+            var firmsForContact = new List<Firm>();
+            var allFirms = new List<Firm>();
+
+            var contact = new Contact("Тестовое письио", "Письмо для группы фирм", new("Письмо", "Письмо послали"));
+
+            GenerateRandomsFirmsViaFirmFactory(40);
+            allFirms = FirmFactory.Firms;
+
+            while (countOfFirmsForContact-- >= 0)
+            {
+                var randFirm = allFirms[rnd.Next(allFirms.Count)];
+                firmsForContact.Add(randFirm);
+                allFirms.Remove(randFirm);
+            }
+
+            foreach (var firm in firmsForContact)
+            {
+                firm.AddContact(contact);
+            }
+
+            foreach (var firm in firmsForContact)
+            {
+                Assert.IsTrue(firm.ExistContact(contact));
+            }
+
+            foreach (var firm in allFirms)
+            {
+                Assert.IsFalse(firm.ExistContact(contact));
+            }
         }
         #endregion
     }
