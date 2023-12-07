@@ -14,7 +14,7 @@ public class SubFirm
     public string Email { get; private set; } = null!;              //Почтовый адрес подразделения
     public SubFirmType SubFirmType { get; private set; } = null!;   //Тип подразделения
     private List<Contact> _contacts = new();                        //Контакты подразделения
-    public List<Contact> Contacts => new(_contacts);
+    public List<Contact> Contacts => new(_contacts);                //Копия списка контактов подразделения
 
     private SubFirm()
     { }

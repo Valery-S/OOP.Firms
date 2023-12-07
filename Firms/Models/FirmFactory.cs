@@ -1,4 +1,6 @@
-﻿namespace Firms.Models;
+﻿using System.Xml.Linq;
+
+namespace Firms.Models;
 /*==================================================================================
     Класс фабрики фирм. Обеспечивает создание фирмы с переданными адресными данными,
 и добавление ей основного подразделения. Реализует шаблон проектирования Singleton.
@@ -32,4 +34,52 @@ public class FirmFactory
 
 		return firm;
 	}
+
+    public void AddUserFieldForFirm(string firmName, string fieldName, string fieldValue)
+    {
+        var firms = Firms.Where(x => x.Name == firmName).ToList();
+        if (firms.Count == 1)
+        {
+			firms[0].AddField(fieldName, fieldValue);
+        }
+    }
+
+    public Dictionary<string, string> GetFirmFields(string firmName)
+    {
+        Dictionary<string, string> res=new ();
+        var firms = Firms.Where(x => x.Name == firmName).ToList();
+        if (firms.Count == 1)
+        {
+            res = firms[0].UserFields;
+        }
+        return res;
+    }
+    public string GetValueOfFieldByName(string firmName, string fieldName)
+    {
+        string res="";
+        var firms = Firms.Where(x => x.Name == firmName).ToList();
+        if (firms.Count == 1)
+        {
+            res = firms[0].GetField(fieldName);
+        }
+        return res;
+    }
+
+    public void SetValueOfFieldByName(string firmName, string fieldName, string fieldValue)
+    {
+        var firms = Firms.Where(x => x.Name == firmName).ToList();
+        if (firms.Count == 1)
+        {
+           firms[0].SetField(fieldName, fieldValue);
+        }
+    }
+
+    public void RenameFieldByName(string firmName, string oldFieldName, string newFieldName)
+    {
+        var firms = Firms.Where(x => x.Name == firmName).ToList();
+        if (firms.Count == 1)
+        {
+            firms[0].RenameField(oldFieldName, newFieldName);
+        }
+    }
 }

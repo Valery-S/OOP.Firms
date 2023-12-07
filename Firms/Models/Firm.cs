@@ -18,13 +18,14 @@ public class Firm
     public DateTime DateIn { get; private set; } = DateTime.Now;                //Дата ввода фирмы (начало взаимоотношений)
     public string Email { get; private set; } = null!;                          //Почтовый адрес фирмы
     public string Web { get; private set; } = null!;                            //URL-адрес сайта
-    public Dictionary<string, string> UserFields { get; private set; }= null!;  //Пользовательские поля
+    private Dictionary<string, string> _userFields=new();                       //Пользовательские поля
+    public Dictionary<string, string> UserFields => new(_userFields);           //Копия словаря пользовательских полей
     public List<SubFirm> SubFirms { get; private set; } = new();                //Подразделения фирмы
-    public int SubFirmsCount => SubFirms.Count;
+    public int SubFirmsCount => SubFirms.Count;                                 //Количество подразделений
 
     private Firm() { }
 
-    public Firm(string name, string shortName, string country, string region, string town, string street, string postIndex, string email, string web, Dictionary<string, string>? fields = null)
+    public Firm(string name, string shortName, string country, string region, string town, string street, string postIndex, string email, string web)
     {
         Name = name;
         ShortName = shortName;
@@ -35,7 +36,6 @@ public class Firm
         PostIndex = postIndex;
         Email = email;
         Web = web;
-        UserFields = fields ?? new Dictionary<string, string>();
     }
 
     public void AddSubFirm(SubFirm subFirm)
@@ -68,17 +68,22 @@ public class Firm
     public bool ExistContact(Contact contact)
         => SubFirms.Exists(sb => sb.ExistContact(contact));
 
+    public void AddField(string name, string value)
+    {
+        _userFields.Add(name, value);
+    }
+
     public void SetField(string name, string value)
-        => UserFields[name] = value;
+        => _userFields[name] = value;
 
     public void RenameField(string oldName, string newName)
     {
-        var data = UserFields[oldName];
-        UserFields.Remove(oldName);
-        UserFields.Add(newName, data);
+        var data = _userFields[oldName];
+        _userFields.Remove(oldName);
+        _userFields.Add(newName, data);
     }
 
     public string GetField(string name)
-        => UserFields[name];
+        => _userFields[name];
 
 }
