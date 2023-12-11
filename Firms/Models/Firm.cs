@@ -20,8 +20,9 @@ public class Firm
     public string Web { get; private set; } = null!;                            //URL-адрес сайта
     private Dictionary<string, string> _userFields=new();                       //Пользовательские поля
     public Dictionary<string, string> UserFields => new(_userFields);           //Копия словаря пользовательских полей
-    public List<SubFirm> SubFirms { get; private set; } = new();                //Подразделения фирмы
-    public int SubFirmsCount => SubFirms.Count;                                 //Количество подразделений
+    private List<SubFirm> _subFirms = new();                                    //Подразделения фирмы
+    public List<SubFirm> SubFirms => new(_subFirms);                            //Копия списка подразделений фирмы
+    public int SubFirmsCount => _subFirms.Count;                                 //Количество подразделений
 
     private Firm() { }
 
@@ -39,9 +40,9 @@ public class Firm
     }
 
     public void AddSubFirm(SubFirm subFirm)
-        => SubFirms.Add(subFirm);
+        => _subFirms.Add(subFirm);
 
-    public SubFirm GetMain() => SubFirms.First(x => x.SubFirmType.IsMain);
+    public SubFirm GetMain() => _subFirms.First(x => x.SubFirmType.IsMain);
 
     public void AddContact(Contact contact)
     {
@@ -51,7 +52,7 @@ public class Firm
 
     public void AddContactToSubFirm(Contact contact, SubFirmType subFirmType, bool checkOtherTypes = false)
     {
-        var subFirm = SubFirms.FirstOrDefault(x => x.SubFirmType.Name == subFirmType.Name);
+        var subFirm = _subFirms.FirstOrDefault(x => x.SubFirmType.Name == subFirmType.Name);
 
         if (subFirm is not null)
         {
@@ -66,7 +67,7 @@ public class Firm
     }
 
     public bool ExistContact(Contact contact)
-        => SubFirms.Exists(sb => sb.ExistContact(contact));
+        => _subFirms.Exists(sb => sb.ExistContact(contact));
 
     public void AddField(string name, string value)
     {
